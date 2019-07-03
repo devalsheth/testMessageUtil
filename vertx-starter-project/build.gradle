@@ -1,0 +1,65 @@
+plugins {
+    // Plugins: Internal
+    id 'java'
+    id 'application'
+    id 'distribution'
+    id 'idea'
+    id 'eclipse'
+    id 'jacoco'
+
+    // Plugins: Frameworks
+    id 'org.springframework.boot' version '1.5.10.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.4.RELEASE'
+
+    // Plugins: Tools
+    id "com.bmuschko.docker-java-application" version "3.2.6"
+    id 'com.github.ben-manes.versions' version '0.17.0'
+    id "com.diffplug.gradle.spotless" version "3.10.0"
+}
+
+repositories {
+    mavenLocal()
+   	maven { url "http://localhost/nexus/" }
+   	maven { url "https://repo.maven.apache.org/maven2/" }
+   	mavenCentral()
+}
+
+group 'com.comcast.xhwholesale.vertx.starter'
+mainClassName = "com.comcast.xhwholesale.vertx.starter.Application"
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+wrapper {
+    gradleVersion = 4.6
+    distributionType = Wrapper.DistributionType.ALL
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.comcast.xhwholesale.vertx.starter.Application'
+    }
+    baseName 'vertx-starter-project'
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    ioVertxVersion = '3.5.0'
+    logbackVersion = '1.2.3'
+}
+
+dependencies {
+    compile(group: 'com.comcast.xhwholesale', name: 'dh-template-spring-vertx', version: '0.2.0.0-SNAPSHOT'){
+        exclude group:'com.amazonaws',module:'aws-xray-recorder-sdk-aws-sdk-instrumentor'
+        exclude group: 'com.comcast.xhwholesale.metrics', module: 'comcast-spring-boot-metrics-starter'
+    }
+    compile group: 'org.projectlombok', name: 'lombok', version: '1.16.8'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile "com.github.tomakehurst:wiremock:2.+"
+    testCompile group: 'io.vertx', name: 'vertx-unit', version: "${ioVertxVersion}"
+
+}

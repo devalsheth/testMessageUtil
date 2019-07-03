@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: vertx-starter-project
+  verticle:
+    numOfInstances: 1
+
+logging:
+  config: 'classpath:logback-spring.xml'
+  level:
+    com.comcast: 'ERROR'
+    org.springframework.web: 'ERROR'
+
+httpPort: 9090
+httpsPort: 9091

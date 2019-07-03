@@ -10,9 +10,11 @@ phases:
       - $(aws ecr get-login --no-include-email --region us-east-2)
       - REPOSITORY_URI=454143665149.dkr.ecr.us-east-2.amazonaws.com/demo/samplerepo
       - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - echo $IMAGE_TAG
   build:
     commands:
       - echo Build started on `date`
+      - mvn install
       - echo Building the Docker image...          
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
